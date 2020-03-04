@@ -50,5 +50,11 @@ namespace DiscInventory.Controllers
             await db.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpGet("oos")]
+        public async Task<List<Disc>> GetAllDiscsOutOfStock()
+        {
+            return await db.Discs.Where(d => d.NumberInStock == 0).ToListAsync();
+        }
     }
 }
