@@ -56,5 +56,10 @@ namespace DiscInventory.Controllers
         {
             return await db.Discs.Where(d => d.NumberInStock == 0).ToListAsync();
         }
+        [HttpGet("sku/{sku}")]
+        public async Task<Disc> GetDiscBySKU(int sku)
+        {
+            return await db.Discs.FirstOrDefaultAsync(d => d.SKU == sku);
+        }
     }
 }
