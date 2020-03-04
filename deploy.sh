@@ -1,7 +1,7 @@
-docker build -t sdg-sample-api-template .
+docker build -t sdg-disc-inventory-image .
 
-docker tag sdg-sample-api-template registry.heroku.com/sdg-sample-api-template/web
+docker tag sdg-disc-inventory-image registry.heroku.com/sdg-disc-inventory-api/web
 
-docker push registry.heroku.com/sdg-sample-api-template/web
+docker push registry.heroku.com/sdg-disc-inventory-api/web
 
-heroku container:release web -a sdg-sample-api-template
+heroku container:release web -a sdg-disc-inventory-api
