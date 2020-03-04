@@ -40,5 +40,15 @@ namespace DiscInventory.Controllers
             await db.SaveChangesAsync();
             return newDiscData;
         }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteDiscFromInventory(int id)
+        {
+            var discToRemove = await db.Discs.FirstOrDefaultAsync(d => d.Id == id);
+            db.Discs.Remove(discToRemove);
+            await db.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
