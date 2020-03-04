@@ -15,10 +15,10 @@ namespace DiscInventory.Controllers
     {
         public DatabaseContext db { get; set; } = new DatabaseContext();
 
-        [HttpGet]
-        public async Task<List<Disc>> GetAllDiscs()
+        [HttpGet("{locationId}")]
+        public async Task<List<Disc>> GetAllDiscs(int locationId)
         {
-            return await db.Discs.OrderBy(d => d.Name).ToListAsync();
+            return await db.Discs.Where(d => d.LocationId == locationId).OrderBy(d => d.Name).ToListAsync();
         }
         [HttpGet("id/{id}")]
         public async Task<Disc> GetDiscById(int id)
