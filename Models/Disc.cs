@@ -11,5 +11,9 @@ namespace DiscInventory.Models
         public int NumberInStock { get; set; }
         public decimal Price { get; set; }
         public DateTime DateOrdered { get; set; }
+
+        // Navigation Properties
+        public int? LocationId { get; set; }
+        public Location Location { get; set; }
     }
 }
