@@ -10,6 +10,6 @@ namespace DiscInventory.Models
         public string Description { get; set; }
         public int NumberInStock { get; set; }
         public decimal Price { get; set; }
-        public DateTime? DateOrdered { get; set; }
+        public DateTime DateOrdered { get; set; }
     }
 }
