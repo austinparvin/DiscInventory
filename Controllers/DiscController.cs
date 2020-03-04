@@ -20,10 +20,10 @@ namespace DiscInventory.Controllers
         {
             return await db.Discs.Where(d => d.LocationId == locationId).OrderBy(d => d.Name).ToListAsync();
         }
-        [HttpGet("id/{id}")]
-        public async Task<Disc> GetDiscById(int id)
+        [HttpGet("{id}/{locationId}")]
+        public async Task<Disc> GetDiscById(int id, int locationId)
         {
-            return await db.Discs.FirstOrDefaultAsync(d => d.Id == id);
+            return await db.Discs.FirstOrDefaultAsync(d => d.Id == id && d.LocationId == locationId);
         }
         [HttpPost]
         public async Task<Disc> AddDiscToInventory(Disc disc)
