@@ -10,6 +10,8 @@ namespace DiscInventory.Models
 
         public DbSet<Disc> Discs { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<DiscOrder> DiscOrders { get; set; }
         private string ConvertPostConnectionToConnectionString(string connection)
         {
             var _connection = connection.Replace("postgres://", String.Empty);
