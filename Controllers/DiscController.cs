@@ -25,27 +25,30 @@ namespace DiscInventory.Controllers
         {
             return await db.Discs.FirstOrDefaultAsync(d => d.Id == id && d.LocationId == locationId);
         }
-        [HttpPost]
-        public async Task<Disc> AddDiscToInventory(Disc disc)
+        [HttpPost("locationId/{locationId}")]
+        public async Task<Disc> AddDiscToInventory(Disc disc, int locationId)
         {
+            disc.LocationId = locationId;
             await db.Discs.AddAsync(disc);
             await db.SaveChangesAsync();
             return disc;
         }
-        [HttpPut("{id}")]
-        public async Task<Disc> UpdateDiscInInventory(int id, Disc newDiscData)
+        [HttpPut("{id}/locationId/{locationId}")]
+        public async Task<Disc> UpdateDiscInInventory(int id, Disc newDiscData, int locationId)
         {
             newDiscData.Id = id;
+            newDiscData.LocationId = locationId;
             db.Entry(newDiscData).State = EntityState.Modified;
             await db.SaveChangesAsync();
             return newDiscData;
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteDiscFromInventory(int id)
+        [HttpDelete("{id}/locationId/{locationId}")]
+        public async Task<ActionResult> DeleteDiscFromInventory(int id, int locationId)
         {
-            var discToRemove = await db.Discs.FirstOrDefaultAsync(d => d.Id == id);
+
+            var discToRemove = await db.Discs.FirstOrDefaultAsync(d => d.Id == id && d.LocationId == locationId);
             db.Discs.Remove(discToRemove);
             await db.SaveChangesAsync();
             return Ok();
@@ -55,6 +58,11 @@ namespace DiscInventory.Controllers
         public async Task<List<Disc>> GetAllDiscsOutOfStock()
         {
             return await db.Discs.Where(d => d.NumberInStock == 0).ToListAsync();
+        }
+        [HttpGet("oos/locationId/{locationId}")]
+        public async Task<List<Disc>> GetAllDiscsOutOfStockAtLocation(int locationId)
+        {
+            return await db.Discs.Where(d => d.NumberInStock == 0 && d.LocationId == locationId).ToListAsync();
         }
         [HttpGet("sku/{sku}")]
         public async Task<Disc> GetDiscBySKU(int sku)
