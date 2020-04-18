@@ -3,6 +3,7 @@
 - Create an API that can CRUD against a Database
 - Reenforce SQL basics
 - One to many relationships
+- Working with Docker
 
 # Includes: 
 
