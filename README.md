@@ -1,28 +1,50 @@
-# Defualt Template for SDG .NET Course
+# Objectives
 
-This is the default template for a simple .NET Core Web API. This template has:
+- Create an API that can CRUD against a Database
+- Reenforce SQL basics
+- One to many relationships
 
-- CORS Enabled
-- Swagger
-- Postgres & EF Core
-- Ready for Docker Deployment
+# Includes: 
 
-## TODO:
+- [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
+- [LINQ](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/)
+- [EF CORE](https://docs.microsoft.com/en-us/ef/core/)
+- [POSTGRESQL](https://www.postgresql.org/)
+- [CONTROLLERS](https://docs.microsoft.com/en-us/dotnet/api/system.web.mvc.controller?view=aspnet-mvc-5.2)
+- [POSTMAN](https://www.postman.com/)
+- [DOCKER](https://www.docker.com/resources/what-container)
+- [SWAGGER](https://swagger.io/solutions/api-documentation/)
+- MVC design pattern
 
-- Make this in into a template
+## Featured Code
 
-to use:
+### Using Action Results and Async
 
-- [ ] Update your database name in `DatabaseContext.cs`
+```C#
+  [HttpGet]
+  public async Task<ActionResult<List<Order>>> GetAllOrders()
+  {
+      var ordersToReturn = await db.Orders.OrderBy(o => o.PlacedAt).ToListAsync();
 
-to Deploy to heroku:
+      foreach (Order order in ordersToReturn)
+      {
+          var oId = order.Id;
+          order.DiscOrders = await db.DiscOrders.Where(o => o.OrderId == oId).ToListAsync();
+      }
 
-- [ ] create a web app on heroku, make sure to have the CLI downloaded, installed, logged in and be logged into the container via heroku.
-- [ ] Update your `dockerfile` to use your `*.dll` file instead of `dotnet-sdg-template.dll`
-- [ ] Update the deploy script:
-  - [ ] change `sdg-template-image` to `your-project-name-image`
-  - [ ] change `heroku-web-app` to your web app name on heroku
+      return new ContentResult()
+      {
+          Content = JsonConvert.SerializeObject(ordersToReturn,
+          new JsonSerializerSettings
+          {
+              ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+          }),
+          ContentType = "application/json",
+          StatusCode = 200
+      };
+  }
+ ```
+ 
+## User Actions
 
-## PROTIP:
-
-When you are complete with the project and have turned it in to your instructor, update this read me with details about the assignment.
+[API DOCUMENTATION](https://sdg-disc-inventory-api.herokuapp.com/index.html)
